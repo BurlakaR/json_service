@@ -1,9 +1,6 @@
 package com.jsonservice.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +8,8 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "message")
+@NoArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class JMessage implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,14 +17,6 @@ public class JMessage implements Serializable{
     private int id;
 
     @Column(name = "text")
-    private String text;
-
-
-    public JMessage(String text) {
-        this.text = text;
-    }
-
-
-
+    @NonNull private String text;
 
 }
