@@ -1,14 +1,30 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
+
+
 <head>
     <title>Getting Started: Handling Form Submission</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+
+<link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css"/>
+<!--Bootstrap JS-->
+<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<style>
+    #button{
+        width: 100px;
+        margin:10px;
+    }
+</style>
+
 <body>
-<h1>Form</h1>
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="/"><label id="button" class="btn btn-lg btn-block btn-primary">Back</label></a>
+</nav>
 <form action="#" th:action="@{/findall}" th:object="${jmessages}" method="post">
 
+    <div>
     <table width="100%" border="2">
         <tr>
             <th>id</th>
@@ -20,6 +36,7 @@
             <td th:text="${jmessage.name}"></td>
         </tr>
     </table>
+    </div>
 
 
 </form>
