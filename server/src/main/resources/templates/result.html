@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Form</h1>
+<form action="#" th:action="@{/findall}" th:object="${jmessages}" method="post">
+
+    <table width="100%" border="2">
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+        </tr>
+
+        <tr th:each="jmessage : ${jmessages}">
+            <td th:text="${jmessage.id}"></td>
+            <td th:text="${jmessage.name}"></td>
+        </tr>
+    </table>
+
+
+</form>
+</body>
+</html>

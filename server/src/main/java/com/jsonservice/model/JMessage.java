@@ -16,7 +16,9 @@ public class JMessage implements Serializable{
     @Column(name = "id")
     private int id;
 
-    @Column(name = "text")
+    @Column(name = "text",columnDefinition = "TEXT")
     @NonNull private String text;
 
+    @Column(name = "name")
+    @NonNull private String name;
 }
