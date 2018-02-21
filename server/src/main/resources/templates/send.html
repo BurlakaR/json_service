@@ -1,11 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+    <title>Json Upload</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <!--Bootstrap JS-->
+    <script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<style>
+#button{
+width: 100px;
+margin:10px;
+}
+</style>
 </head>
 <body>
-    <p th:text="'Hello, ' + 'World' + '!'" />
-    <a href="/"><p>Back</p></a>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+     <a href="/"><label id="button" class="btn btn-lg btn-block btn-primary">Back</label></a>
+ </nav>
 </body>
 </html>
