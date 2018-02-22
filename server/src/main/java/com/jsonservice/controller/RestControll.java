@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
@@ -17,31 +18,33 @@ import java.io.IOException;
 @RequestMapping("/")
 public class RestControll {
 
+    private Iterable<JMessage> all;
+
     @Autowired
     private MessageRepository messageRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String send(@RequestParam MultipartFile file) throws IOException {
+    public ModelAndView send(@RequestParam MultipartFile file) throws IOException {
 
         String message = new String(file.getBytes());
         String name = file.getOriginalFilename();
-        ;
         messageRepository.save(new JMessage(message, name));
-
-        return "send";
+        return update();
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String get(Model model) {
+        all = messageRepository.findAll();
+        model.addAttribute("jmessages", all);
         return "index";
     }
 
-    @GetMapping("/table")
-    public String getNamesFromDB(Model model) {
-        Iterable<JMessage> all = messageRepository.findAll();
-        model.addAttribute("jmessages", all);
-        return "result";
+    @RequestMapping("/update")
+    public ModelAndView update() {
+        all = messageRepository.findAll();
+        return new ModelAndView("index","jmessages", all);
     }
+
 }
 
 

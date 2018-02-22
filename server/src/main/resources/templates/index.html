@@ -7,11 +7,21 @@
     <!--Bootstrap JS-->
     <script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+    <script type="text/javascript" src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+
 <style>
 #button{
 width: 100px;
 margin:10px;
 }
+#update{
+    width: 100px;
+    margin:10px;
+}
+    .centerdiv{
+        width:500px;
+        align:center;
+    }
 </style>
 </head>
 <body>
@@ -21,22 +31,57 @@ margin:10px;
 </div>
 
 <div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-      
 
-       <nav class="navbar navbar-expand navbar-dark bg-dark">
-             <label id="button" class="btn btn-lg btn-block btn-primary">
-               Browse <input name="file" type="file" hidden="true"/>
-             </label>
-            <label id="button" class="btn btn-lg btn-block btn-primary">
-               Upload <input type="submit" value="Upload" hidden="true" />
-            </label>
-           <a href="/table"><label id="button" class="btn btn-lg btn-block btn-primary">
-               Update
-       </label></a>
-    </nav>
+
+    <form method="POST" enctype="multipart/form-data" action="/">
+        <div align="center">
+           
+           <table>
+               <tr>
+                   <th>
+                       <label id="button" class="btn btn-lg btn-block btn-primary">
+                           Browse <input name="file" type="file" hidden="true"/>
+                       </label>
+                   </th>
+                   <th>
+                       <label id="button" class="btn btn-lg btn-block btn-primary">
+                           Upload <input type="submit" value="Upload" hidden="true" />
+                       </label>
+                   </th>
+                   <th>
+                       <label id="update" class="btn btn-lg btn-block btn-primary " onclick="location.href='/update'">
+                           Update
+                       </label>
+                   </th>
+               </tr>
+           </table>
+           </div>
+
+
     </form>
 </div>
+
+<form action="#" th:action="@{/findall}" th:object="${jmessages}" method="post">
+<div align="center">
+    <div class="centerdiv">
+
+        <table class="table" width="100%" border="2" id="tabl">
+
+            <tr>
+                <th>id</th>
+                <th>Name</th>
+            </tr>
+
+
+            <tr th:each="jmessage : ${jmessages}">
+                <td th:text="${jmessage.id}"></td>
+                <td th:text="${jmessage.name}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</form>
 
 
 <div>
@@ -47,5 +92,7 @@ margin:10px;
     </ul>
 </div>
 
-</body>
+
+
+    </body>
 </html>
