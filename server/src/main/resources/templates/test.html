@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css"/>
+<!--Bootstrap JS-->
+<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<style>
+    #button{
+        width: 100px;
+        margin:10px;
+    }
+</style>
+
+<body>
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="/"><label id="button" class="btn btn-lg btn-block btn-primary">Back</label></a>
+</nav>
+<form action="#" th:action="@{/json}" th:object="${lines}" method="post">
+
+    <div>
+        <table width="100%" border="2">
+            <tr>
+                <th>Text</th>
+            </tr>
+            <tr th:each="line : ${lines}">
+                <td th:text="${line}"></td>
+            </tr>
+        </table>
+    </div>
+
+</form>
+</body>
+</html>
