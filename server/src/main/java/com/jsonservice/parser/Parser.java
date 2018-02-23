@@ -2,8 +2,6 @@ package com.jsonservice.parser;
 
 import com.jsonservice.model.JMessage;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedList;
 import java.util.Stack;
 
 @Service
@@ -15,20 +13,25 @@ public class Parser {
     static private final String BODY_FINISH="</body>";
     static private final String FINISH="</html>";
 
+    static private final String [][] mas={{"<p>","</p>"},{"<li><p>","</p></li>"}};
+
+
     private String html;
     private String parseString;
     private Stack<Integer> stackString=new Stack<>();
     private Stack<Integer> massiveString=new Stack<>();
+    private Stack<Integer> all=new Stack<>();
     private int i;
 
-    final static private String[] ban={"\"","},","\\[","]","\\{","}", "<li><p></p></li>","<li></li>", "\\\\"};
+    final static private String[] ban={"\"","},","\\[","]","\\{","},",",", "<li><p></p></li>","<li></li>", "\\\\"};
 
     public String parse(JMessage jMessage) {
         parseString = jMessage.getText();
         stackString.push(0);
+        all.push(0);
 
 
-        html = START+HEAD+BODY_START + find(1)+BODY_FINISH+FINISH;
+        html = START+HEAD+BODY_START + find(1,0)+BODY_FINISH+FINISH;
 
         for(int j=0;j<ban.length;j++){
         html=html.replaceAll(ban[j], "");
@@ -39,48 +42,57 @@ public class Parser {
 
 
     public String addString(int first, int second){
-        return "<p>"+parseString.substring(first, second)+"</p>";
+        String local=parseString.substring(first+1, second-1);
+        if (!isStringNullOrWhiteSpace(local)) {
+            return local;
+        }
+
+        return "";
     }
 
     public int more(){
-        if(massiveString.empty()) return stackString.peek();
-        if(stackString.empty()) return massiveString.peek();
-        int x=stackString.peek();
-        int y=massiveString.peek();
-        if(x>y) return x;
-        return y;
+        return all.peek();
     }
 
-    public String find(int start){
+    public String find(int start, int branch){
 
         char c=' ';
         String local="";
+
+
         int buf;
         boolean base=true;
         try{
-        for(i=start;!stackString.empty();i++){
+        for(i=start;i<parseString.length();i++){
             c=parseString.charAt(i);
             switch (c){
                 case '{':
                     buf=more();
                     stackString.push(i);
-                    local+=addString(buf, i);
-                    local+=find(i+1);
+                    all.push(i);
+                    local+=mas[0][0]+addString(buf, i)+mas[0][1];
+                    local+=find(i+1,branch);
                     base=false;
                     break;
 
                 case '[':
                     buf=more();
-                    local+=addString(buf, i);
+                    local+=mas[0][0]+addString(buf, i)+mas[0][1];
                     massiveString.push(i);
-                    local+=findList(i+1);
+                    all.push(i);
+                    local+="<ul>"+find(i+1, 1);
                     base=false;
                     break;
 
                 case '}':
+                    all.push(i);
                     if(base)
-                    local+=addString(stackString.pop(), i);
+                    local+=mas[branch][0]+addString(stackString.pop(), i)+mas[branch][1];
                     return local;
+
+                case ']':
+                    all.push(i);
+                    return local+"</ul>";
             }
         }}catch(Exception e){
 
@@ -88,45 +100,21 @@ public class Parser {
         return local;
     }
 
-    public String findList(int start){
-        char c=' ';
-        int buf;
-        String local="<ul>";
-        String finish="</ul>";
-        LinkedList<String> list = new LinkedList<>();
-        for(i=start;!stackString.empty();i++){
-            if(i==110920){
-                System.out.println("Hello");
-            }
-            c=parseString.charAt(i);
-            switch (c){
-                case '{':
-                    buf=more();
-                    stackString.push(i);
-                    list.add(addString(buf, i));
-                    local+=find(i+1);
-                    break;
 
-                case '[':
-                    buf=more();
-                    list.add(addString(buf, i));
-                    massiveString.push(i);
-                    list.add(findList(i+1));
 
-                    break;
 
-                case ']':
-                    return local+result(list)+finish;
+
+    public static boolean isStringNullOrWhiteSpace(String value) {
+        if (value == null) {
+            return true;
+        }
+
+        for (int i = 0; i < value.length(); i++) {
+            if (!Character.isWhitespace(value.charAt(i))) {
+                return false;
             }
         }
-        return result(list);
-    }
 
-    public String result(LinkedList<String> list){
-        String result="";
-        for(int j=0; j<list.size(); j++)
-            result+="<li>"+list.get(j)+"</li>";
-
-        return result;
+        return true;
     }
 }
