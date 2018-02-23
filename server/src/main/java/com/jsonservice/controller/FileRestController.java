@@ -5,8 +5,7 @@ import com.jsonservice.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -17,9 +16,9 @@ public class FileRestController {
     @Autowired
     private Parser parser;
 
-    @RequestMapping("/newfile")
-    public String newfile()  {
-        return parser.parse(RestControll.getMessage("post.json"));
+    @RequestMapping("newfile")
+    public String newfile(@RequestParam(value = "name") String name)  {
+        return parser.parse(RestControll.getMessage(name));
     }
 
 
