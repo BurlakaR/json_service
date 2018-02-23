@@ -36,6 +36,8 @@ public class Parser {
 
     
 
+    
+
         for(int j=0;j<ban.length;j++){
         html=html.replaceAll(ban[j], "");
         }
