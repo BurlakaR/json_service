@@ -19,7 +19,7 @@ public class Parser {
     private Stack<Integer> all=new Stack<>();
     private int i;
 
-    final static private String[] ban={"<p>,</p>","\"","},","\\[","]","\\{","},", "<li><p></p></li>","<li></li>","<ul></ul>", "\\\\"};
+    final static private String[] ban={"\\\\n","<p>,</p>","\"","},","\\[","]","\\{","},", "<li><p></p></li>","<li></li>","<ul></ul>", "\\\\"};
 
     public String parse(JMessage jMessage) {
         parseString = jMessage.getText();
@@ -28,7 +28,7 @@ public class Parser {
 
 
         html = find(1,0);
-        html=html.replaceAll("\n", "</p><p>");
+        html=html.replaceAll("," ,"</p><p>");
 
         for(int j=0;j<ban.length;j++){
         html=html.replaceAll(ban[j], "");
