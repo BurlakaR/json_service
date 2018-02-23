@@ -9,21 +9,31 @@ import java.util.Stack;
 @Service
 public class Parser {
 
+    static private final String START="<html>";
+    static private final String HEAD="<head><title>File</title></head>";
+    static private final String BODY_START="<body>";
+    static private final String BODY_FINISH="</body>";
+    static private final String FINISH="</html>";
+
     private String html;
     private String parseString;
     private Stack<Integer> stackString=new Stack<>();
     private Stack<Integer> massiveString=new Stack<>();
     private int i;
 
-    final static private String[] ban={"\"","},","\\[","]","\\{","}"};
+    final static private String[] ban={"\"","},","\\[","]","\\{","}", "<li><p></p></li>","<li></li>", "\\\\"};
 
     public String parse(JMessage jMessage) {
         parseString = jMessage.getText();
         stackString.push(0);
-        html = "" + find(1);
+
+
+        html = START+HEAD+BODY_START + find(1)+BODY_FINISH+FINISH;
+
         for(int j=0;j<ban.length;j++){
         html=html.replaceAll(ban[j], "");
         }
+
         return html;
     }
 
@@ -48,7 +58,7 @@ public class Parser {
         int buf;
         boolean base=true;
         try{
-        for(i=start;i<parseString.length();i++){
+        for(i=start;!stackString.empty();i++){
             c=parseString.charAt(i);
             switch (c){
                 case '{':
@@ -61,6 +71,7 @@ public class Parser {
 
                 case '[':
                     buf=more();
+                    local+=addString(buf, i);
                     massiveString.push(i);
                     local+=findList(i+1);
                     base=false;
@@ -80,9 +91,13 @@ public class Parser {
     public String findList(int start){
         char c=' ';
         int buf;
-        String local="";
+        String local="<ul>";
+        String finish="</ul>";
         LinkedList<String> list = new LinkedList<>();
-        for(i=start;i<parseString.length();i++){
+        for(i=start;!stackString.empty();i++){
+            if(i==110920){
+                System.out.println("Hello");
+            }
             c=parseString.charAt(i);
             switch (c){
                 case '{':
@@ -94,13 +109,14 @@ public class Parser {
 
                 case '[':
                     buf=more();
+                    list.add(addString(buf, i));
                     massiveString.push(i);
                     list.add(findList(i+1));
 
                     break;
 
                 case ']':
-                    return local+result(list);
+                    return local+result(list)+finish;
             }
         }
         return result(list);
@@ -109,7 +125,7 @@ public class Parser {
     public String result(LinkedList<String> list){
         String result="";
         for(int j=0; j<list.size(); j++)
-            result+=list.get(j);
+            result+="<li>"+list.get(j)+"</li>";
 
         return result;
     }
