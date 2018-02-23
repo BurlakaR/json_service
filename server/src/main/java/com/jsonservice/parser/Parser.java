@@ -32,7 +32,9 @@ public class Parser {
 
 
         html = find(1,0);
-        html=html.replaceAll("," ,"</p><p>");
+        html=html.replaceAll("\n", "</p><p>");
+
+    
 
     
 

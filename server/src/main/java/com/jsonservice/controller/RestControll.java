@@ -3,6 +3,7 @@ package com.jsonservice.controller;
 
 import com.jsonservice.DAO.MessageRepository;
 import com.jsonservice.model.JMessage;
+import com.jsonservice.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
