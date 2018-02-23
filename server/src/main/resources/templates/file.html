@@ -10,24 +10,18 @@
     <script type="text/javascript" src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
 
 <style>
-#button{
-width: 100px;
-margin:10px;
-}
-#update{
-    width: 100px;
-    margin:10px;
-}
-    .centerdiv{
-        width:500px;
-        align:center;
-    }
+
+
 </style>
 </head>
 <body>
 
+<div>
+<div>
+    <iframe style="position: fixed " src="/" width="25%" height="100%"></iframe>
+</div>
 
-
+<div style="margin-left: 25%">
 <form action="#" th:action="@{/newfile}" th:object="${htmlString}" method="post">
 
     <div>
@@ -44,11 +38,15 @@ margin:10px;
         }
     </script>
 
+
 </form>
 
+</div>
+</div>
 
 
 
 
-    </body>
+
+</body>
 </html>
