@@ -24,10 +24,15 @@ public class RestControll {
     @Autowired
     private Parser parser;
 
-    @RequestMapping("newfile")
-    public ModelAndView newfile(@RequestParam(value = "name") String name)  {
-        return new ModelAndView("file","htmlString",parser.parse(RestControll.getMessage(name)));
+    @RequestMapping("file")
+    public Model newfile(@RequestParam(value = "name") String name, Model model)  {
+        model.addAttribute("htmlString",parser.parse(RestControll.getMessage(name)));
+        return model;
     }
+
+
+
+
     @Autowired
     private MessageRepository messageRepository;
 

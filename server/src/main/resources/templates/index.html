@@ -78,7 +78,7 @@ margin:10px;
 
                 <td th:text="${jmessage.id}"></td>
                 <td th:text="${jmessage.name}"></td>
-                <td><a th:href="@{/newfile(name = ${jmessage.name})}">html</a></td>
+                <td><a th:href="@{/file(name = ${jmessage.name})}"  target="_parent">html</a></td>
             </tr>
         </table>
     </div>
