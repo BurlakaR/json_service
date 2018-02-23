@@ -28,7 +28,7 @@ public class Parser {
 
 
         html = find(1,0);
-        html=html.replaceAll("," ,"</p><p>");
+        html=html.replaceAll("\n", "</p><p>");
 
         for(int j=0;j<ban.length;j++){
         html=html.replaceAll(ban[j], "");
