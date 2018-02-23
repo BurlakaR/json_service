@@ -7,16 +7,10 @@ import java.util.Stack;
 @Service
 public class Parser {
 
-    static private final String START="<html>";
-    static private final String HEAD="<head><title>File</title></head>";
-    static private final String BODY_START="<body>";
-    static private final String BODY_FINISH="</body>";
-    static private final String FINISH="</html>";
 
     static private final String [][] mas={{"<p>","</p>"},{"<li><p>","</p></li>"}};
 
 
-    static private final String FRAME="<frame src=\"allclasses-frame.html\" name=\"packageFrame\" title=\"All classes and interfaces (except non-static nested types)\">";
 
     private String html;
     private String parseString;
@@ -25,7 +19,7 @@ public class Parser {
     private Stack<Integer> all=new Stack<>();
     private int i;
 
-    final static private String[] ban={"\"","},","\\[","]","\\{","},",",", "<li><p></p></li>","<li></li>", "\\\\"};
+    final static private String[] ban={"\n","\"","},","\\[","]","\\{","},",",", "<li><p></p></li>","<li></li>", "\\\\"};
 
     public String parse(JMessage jMessage) {
         parseString = jMessage.getText();
