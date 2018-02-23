@@ -3,6 +3,7 @@ package com.jsonservice.controller;
 
 import com.jsonservice.DAO.MessageRepository;
 import com.jsonservice.model.JMessage;
+import com.jsonservice.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,19 @@ import java.io.IOException;
 @RequestMapping("/")
 public class RestControll {
 
-    private Iterable<JMessage> all;
+    static private Iterable<JMessage> all;
 
     @Autowired
     private MessageRepository messageRepository;
+
+    static public JMessage getMessage(String name){
+        for (JMessage jmessage: all) {
+            if(jmessage.getName().equals(name)){
+                return jmessage;
+            }
+        }
+        return null;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView send(@RequestParam MultipartFile file) throws IOException {
@@ -44,6 +54,8 @@ public class RestControll {
         all = messageRepository.findAll();
         return new ModelAndView("index","jmessages", all);
     }
+
+
 
 }
 

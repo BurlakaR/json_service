@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends CrudRepository<JMessage, Integer> {
+    public JMessage findByName(String name);
 }
