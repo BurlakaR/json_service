@@ -16,6 +16,8 @@ public class Parser {
     static private final String [][] mas={{"<p>","</p>"},{"<li><p>","</p></li>"}};
 
 
+    static private final String FRAME="<frame src=\"allclasses-frame.html\" name=\"packageFrame\" title=\"All classes and interfaces (except non-static nested types)\">";
+
     private String html;
     private String parseString;
     private Stack<Integer> stackString=new Stack<>();
@@ -31,7 +33,7 @@ public class Parser {
         all.push(0);
 
 
-        html = START+HEAD+BODY_START + find(1,0)+BODY_FINISH+FINISH;
+        html = find(1,0);
 
         for(int j=0;j<ban.length;j++){
         html=html.replaceAll(ban[j], "");

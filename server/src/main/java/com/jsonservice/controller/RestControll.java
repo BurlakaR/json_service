@@ -22,6 +22,13 @@ public class RestControll {
     static private Iterable<JMessage> all;
 
     @Autowired
+    private Parser parser;
+
+    @RequestMapping("newfile")
+    public ModelAndView newfile(@RequestParam(value = "name") String name)  {
+        return new ModelAndView("file","htmlString",parser.parse(RestControll.getMessage(name)));
+    }
+    @Autowired
     private MessageRepository messageRepository;
 
     static public JMessage getMessage(String name){

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
@@ -13,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class FileRestController {
 
-    @Autowired
+    /*@Autowired
     private Parser parser;
 
     @RequestMapping("newfile")
-    public String newfile(@RequestParam(value = "name") String name)  {
-        return parser.parse(RestControll.getMessage(name));
-    }
+    public ModelAndView newfile(@RequestParam(value = "name") String name)  {
+        return new ModelAndView("file","htmlString",parser.parse(RestControll.getMessage(name)));
+    }*/
 
 
 }
