@@ -14,9 +14,7 @@ public class Parser {
 
     private String html;
     private String parseString;
-    private Stack<Integer> stackString=new Stack<>();
-    private Stack<Integer> massiveString=new Stack<>();
-    private Stack<Integer> all=new Stack<>();
+    private int last;
     private int i;
 
 
@@ -27,8 +25,7 @@ public class Parser {
 
     public String parse(JMessage jMessage) {
         parseString = jMessage.getText();
-        stackString.push(0);
-        all.push(0);
+        last=0;
 
 
         html = find(1,0);
@@ -55,9 +52,6 @@ public class Parser {
         return "";
     }
 
-    public int more(){
-        return all.peek();
-    }
 
     public String find(int start, int branch){
 
@@ -66,37 +60,32 @@ public class Parser {
 
 
         int buf;
-        boolean base=true;
         try{
         for(i=start;i<parseString.length();i++){
             c=parseString.charAt(i);
             switch (c){
                 case '{':
-                    buf=more();
-                    stackString.push(i);
-                    all.push(i);
+                    buf=last;
+                    last=i;
                     local+=mas[0][0]+addString(buf, i)+mas[0][1];
                     local+=find(i+1,branch);
-                    base=false;
                     break;
 
                 case '[':
-                    buf=more();
+                    buf=last;
                     local+=mas[0][0]+addString(buf, i)+mas[0][1];
-                    massiveString.push(i);
-                    all.push(i);
+                    last=i;
                     local+="<ul>"+find(i+1, 1);
-                    base=false;
                     break;
 
                 case '}':
-                    all.push(i);
-                    if(base)
-                    local+=mas[branch][0]+addString(stackString.pop(), i)+mas[branch][1];
+                    buf=last;
+                    last=i;
+                    local+=mas[branch][0]+addString(buf, i)+mas[branch][1];
                     return local;
 
                 case ']':
-                    all.push(i);
+                    last=i;
                     return local+"</ul>";
 
 
